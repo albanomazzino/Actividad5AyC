@@ -39,15 +39,6 @@ def removerPlanesInvalidos(coleccion, estadoInicialFabrica):
             coleccionValida.append([cursorIndicesColeccion, tuple])
     return coleccionValida
 
-"""def reconstruirIndicesSolucionV2(smallest_end_to_subsequence_of_collection_length):
-    longest_increasing_subsequence = []
-    elementoConIndiceActual = smallest_end_to_subsequence_of_collection_length
-    while elementoConIndiceActual is not None:
-        longest_increasing_subsequence.append(planesExpansionIndexadosOrdenados[elementoConIndiceActual][0] + 1) # + 1 para corregir el offset de la lista que empieza en 0 y la solucion tiene indices que comienzan en 1
-        elementoConIndiceActual = parent[elementoConIndiceActual]
-"""
-
-
 def reconstruirIndicesSolucion(smallest_end_to_subsequence_of_length, planesExpansionIndexadosOrdenados, parent):
     longest_increasing_subsequence = []
     curr_parent = smallest_end_to_subsequence_of_length[-1]
@@ -61,26 +52,25 @@ def optimized_dynamic_programming_solution(planesExpansion, estadoInicialFabrica
     planesExpansionIndexados = list(enumerate(planesExpansion))  # Create a list of (index, tuple) pairs 
     planesExpansionIndexadosOrdenados = ordenarPlanes(planesExpansionIndexados)
     planesExpansionIndexadosOrdenados = removerPlanesInvalidos(planesExpansionIndexadosOrdenados, estadoInicialFabrica)
+    longest_increasing_subsequence = []
 
-    smallest_end_to_subsequence_of_length = []
-    added_tuples = set()  # Set to keep track of added tuples
-    parent = [None for _ in planesExpansionIndexadosOrdenados]
+    if (len(planesExpansionIndexadosOrdenados) > 0):
+        smallest_end_to_subsequence_of_length = []
+        parent = [None for _ in planesExpansionIndexadosOrdenados]
 
-    for elem in range(len(planesExpansionIndexadosOrdenados)):
-        if ((len(smallest_end_to_subsequence_of_length) == 0 or
-                estrictamenteMenorOEscrictamenteMayor(planesExpansionIndexadosOrdenados[elem][1], planesExpansionIndexadosOrdenados[smallest_end_to_subsequence_of_length[-1]][1])) and
-                planesExpansionIndexadosOrdenados[elem][1] not in added_tuples):  # Check if tuple not already added
-            if len(smallest_end_to_subsequence_of_length) > 0:
-                parent[elem] = smallest_end_to_subsequence_of_length[-1]
-            smallest_end_to_subsequence_of_length.append(elem)
-            added_tuples.add(planesExpansionIndexadosOrdenados[elem][1])  # Add tuple coordinates to the set
-        else:
-            location_to_replace = find_smallest_elem_as_big_as(planesExpansionIndexadosOrdenados, smallest_end_to_subsequence_of_length, elem)
-            smallest_end_to_subsequence_of_length[location_to_replace] = elem
-            if location_to_replace != 0:
-                parent[elem] = smallest_end_to_subsequence_of_length[location_to_replace - 1]
+        for elem in range(len(planesExpansionIndexadosOrdenados)):
+            if (len(smallest_end_to_subsequence_of_length) == 0 or
+                    estrictamenteMenorOEscrictamenteMayor(planesExpansionIndexadosOrdenados[elem][1], planesExpansionIndexadosOrdenados[smallest_end_to_subsequence_of_length[-1]][1])):
+                if len(smallest_end_to_subsequence_of_length) > 0:
+                    parent[elem] = smallest_end_to_subsequence_of_length[-1]
+                smallest_end_to_subsequence_of_length.append(elem)
+            else:
+                location_to_replace = find_smallest_elem_as_big_as(planesExpansionIndexadosOrdenados, smallest_end_to_subsequence_of_length, elem)
+                smallest_end_to_subsequence_of_length[location_to_replace] = elem
+                if location_to_replace != 0:
+                    parent[elem] = smallest_end_to_subsequence_of_length[location_to_replace - 1]
 
-    longest_increasing_subsequence = reconstruirIndicesSolucion(smallest_end_to_subsequence_of_length, planesExpansionIndexadosOrdenados, parent)
+        longest_increasing_subsequence = reconstruirIndicesSolucion(smallest_end_to_subsequence_of_length, planesExpansionIndexadosOrdenados, parent)
 
     imprimirResultado(longest_increasing_subsequence)
     
@@ -89,3 +79,4 @@ test_sequence2 = [(2,2), (2,2)]
 
 optimized_dynamic_programming_solution(test_sequence, (3,3))
 optimized_dynamic_programming_solution(test_sequence2, (1,1))
+optimized_dynamic_programming_solution(test_sequence2, (2,2))
