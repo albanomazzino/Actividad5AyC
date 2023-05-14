@@ -43,7 +43,7 @@ def imprimirResultado(lis):
 # Ordena cada plan de la coleccion (de la forma (index, (x,y)) ascendentemente tomando como criterio a la componente x de la tupla (x,y),
 # donde en casos de empate, pone primero el último elemento de la colección (the latest)
 def ordenarPlanes(coleccion):
-    return sorted(coleccion, key=lambda x: (x[1][0], -x[0]))
+    return sorted(coleccion, key=lambda x: (x[1][0],x[1][1], -x[0]))
 
 # removesPlanesInvalidos(..) realiza una iteracion completa sobre la coleccion, removiendo todo elemento e = (i, (x, y)) cuya tupla (x,y) no satisfaga la condicion de validez
 # Notese que solo se usa para realizar una reduccion inicial sobre la cardinalidad de la coleccion. Al cambiar eventualmente el estado de la fabrica,(por aplicar un plan),
