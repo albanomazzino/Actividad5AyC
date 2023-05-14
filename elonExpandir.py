@@ -1,11 +1,18 @@
 def leerEntrada():
-    entrada = input()
-    entrada = list(map(int, entrada.split()))
+    primeraLineaEntrada = input()
+    primeraLineaEntrada = list(map(int, primeraLineaEntrada.split()))
+    cantidadPlanesExpansion = primeraLineaEntrada[0]
+    estadoInicialFabrica = (primeraLineaEntrada[1], primeraLineaEntrada[2])
+    
+    planesExpansion = []
 
-    cantidadPlanesExpansion = entrada[0]
-    estadoInicialFabrica = (entrada[1], entrada[2])
-    planesExpansion = [(entrada[i], entrada[i + 1]) for i in range(3, 3 + (cantidadPlanesExpansion * 2) - 1, 2)] 
+    for _ in range(cantidadPlanesExpansion):
+        lineaActualEntrada = input()
+        lineaActualEntrada = list(map(int, lineaActualEntrada.split()))
+        planesExpansion.append((lineaActualEntrada[0], lineaActualEntrada[1]))
+
     return estadoInicialFabrica, planesExpansion
+
 
 def estrictamenteMenorOEscrictamenteMayor(tuplaA, tuplaB):
     return (tuplaA[0] < tuplaB[0] and tuplaA[1] < tuplaB[1]) or (tuplaA[0] > tuplaB[0] and tuplaA[1] > tuplaB[1])
@@ -35,7 +42,7 @@ def imprimirResultado(lis):
 
 # Ordena cada plan de la coleccion (de la forma (index, (x,y)) ascendentemente tomando como criterio a la componente x de la tupla (x,y),
 # donde en casos de empate, pone primero el último elemento de la colección (the latest)
-def ordenarPlanes (coleccion):
+def ordenarPlanes(coleccion):
     return sorted(coleccion, key=lambda x: (x[1][0], -x[0]))
 
 # removesPlanesInvalidos(..) realiza una iteracion completa sobre la coleccion, removiendo todo elemento e = (i, (x, y)) cuya tupla (x,y) no satisfaga la condicion de validez
